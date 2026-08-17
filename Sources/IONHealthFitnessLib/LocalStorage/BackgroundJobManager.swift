@@ -183,7 +183,7 @@ extension BackgroundJobManager: BackgroundJobManagerProtocol {
         jobFetchRequest.predicate = jobPredicate
         
         let fetchRequestResults = try self.context.fetch(jobFetchRequest)
-        guard let job = fetchRequestResults.first else { return }
+        guard let job = fetchRequestResults.first else { throw HealthKitErrors.backgroundJobNotFound }
         
         if let notificationFrequency = notificationFrequency.name {
             job.notificationFrequency = notificationFrequency
