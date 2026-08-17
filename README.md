@@ -51,7 +51,7 @@ dependencies: [
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'IONHealthFitnessLib', '~> 1.0.0'
+pod 'IONHealthFitnessLib', '~> 1.0.1'
 ```
 
 Then run:
