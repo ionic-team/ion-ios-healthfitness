@@ -871,68 +871,33 @@ private extension HealthKitManager {
         var rawDataArray = [AdvancedQueryResponseBlock]()
         let healthKitVariables = self.healthTypes.allVariablesDict.filter { variables.map { $0.rawValue }.contains($0.key) }.values.flatMap { $0 }
         
-        if #available(iOS 15, *) {
-            let queryDescriptorArray = healthKitVariables.map { HKQueryDescriptor(sampleType: $0.sampleType, predicate: workoutPredicate) }
-            
-            self.store?.executeSampleQuery(queryDescriptorArray, limit: 0, and: sortDescriptorArray) { result in
-                switch result {
-                case .success(let data):
-                    guard let sampleArray = data as? [HKQuantitySample] else { break }
-                    rawDataArray += sampleArray.enumerated().map { sample in
-                        var valueArray: [Double]?
-                        
-                        let healthKitVariable = healthKitVariables.filter({ $0.quantityType == sample.element.quantityType }).first
-                        if let unit = healthKitVariable?.unit {
-                            valueArray = [sample.element.quantity.doubleValue(for: unit)]
-                        }
-                         
-                        return AdvancedQueryResponseBlock(
-                            block: sample.offset,
-                            startDate: Int(sample.element.startDate.timeIntervalSince1970),
-                            endDate: Int(sample.element.endDate.timeIntervalSince1970),
-                            values: valueArray,
-                            additionalData: healthKitVariable?.name
-                        )
+        let queryDescriptorArray = healthKitVariables.map { HKQueryDescriptor(sampleType: $0.sampleType, predicate: workoutPredicate) }
+
+        self.store?.executeSampleQuery(queryDescriptorArray, limit: 0, and: sortDescriptorArray) { result in
+            switch result {
+            case .success(let data):
+                guard let sampleArray = data as? [HKQuantitySample] else { break }
+                rawDataArray += sampleArray.enumerated().map { sample in
+                    var valueArray: [Double]?
+
+                    let healthKitVariable = healthKitVariables.filter({ $0.quantityType == sample.element.quantityType }).first
+                    if let unit = healthKitVariable?.unit {
+                        valueArray = [sample.element.quantity.doubleValue(for: unit)]
                     }
-                case .failure:
-                    break
+
+                    return AdvancedQueryResponseBlock(
+                        block: sample.offset,
+                        startDate: Int(sample.element.startDate.timeIntervalSince1970),
+                        endDate: Int(sample.element.endDate.timeIntervalSince1970),
+                        values: valueArray,
+                        additionalData: healthKitVariable?.name
+                    )
                 }
-                
-                completion(rawDataArray.toOptional)
+            case .failure:
+                break
             }
-        } else {
-            let group = DispatchGroup()
-            defer {
-                group.notify(queue: .main) {
-                    completion(rawDataArray.toOptional)
-                }
-            }
-            
-            healthKitVariables.forEach { variable in
-                guard let unit = variable.unit else { return }
-                
-                group.enter()
-                self.store?.executeSimpleQuery(
-                    sample: variable.sampleType, predicate: workoutPredicate, limit: 0, sortDescriptors: sortDescriptorArray
-                ) { result in
-                    switch result {
-                    case .success(let data):
-                        guard let sampleArray = data as? [HKQuantitySample] else { break }
-                                               
-                        rawDataArray += sampleArray.map { AdvancedQueryResponseBlock(
-                            block: rawDataArray.count,
-                            startDate: Int($0.startDate.timeIntervalSince1970),
-                            endDate: Int($0.endDate.timeIntervalSince1970),
-                            values: [$0.quantity.doubleValue(for: unit)],
-                            additionalData: variable.name
-                        )}
-                    case .failure:
-                        break
-                    }
-                    
-                    group.leave()
-                }
-            }
+
+            completion(rawDataArray.toOptional)
         }
     }
     

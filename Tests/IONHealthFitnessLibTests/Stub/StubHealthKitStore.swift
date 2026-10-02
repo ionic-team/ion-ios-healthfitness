@@ -110,6 +110,5 @@ class StubHealthKitStore: HealthKitManagerProtocol {
     func execute(query: HKQuery) {}
     func disableAllBackgroundDeliveries(completion: @escaping (Result<Bool, Error>) -> Void) {}
     func disableBackgroundDeliveryFor(type: HKObjectType, completion: @escaping (Result<Bool, Error>) -> Void) {}
-    @available(iOS 15, *)
     func executeSampleQuery(_ queryDescriptors: [HKQueryDescriptor], limit: Int, and sortDescriptors: [NSSortDescriptor], _ completion: @escaping (Result<[HKSample]?, Error>) -> Void) {}
 }

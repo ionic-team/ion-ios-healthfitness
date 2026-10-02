@@ -4,14 +4,8 @@ class HealthKitTypes {
     lazy var cumulativeSumOperations: [HKStatisticsOptions] = [.cumulativeSum]
     lazy var averageOperations: [HKStatisticsOptions] = [.discreteAverage, .discreteMax, .discreteMin]
     lazy var walkingSpeed: HealthKitVariable = {
-        let quantityTypeIdentifier: HKQuantityTypeIdentifier
-        
-        if #available(iOS 14, *) {
-            quantityTypeIdentifier = .walkingSpeed
-        } else {
-            quantityTypeIdentifier = .distanceWalkingRunning
-        }
-        
+        let quantityTypeIdentifier: HKQuantityTypeIdentifier = .walkingSpeed
+
         return HealthKitVariable(
             quantityTypeIdentifier: quantityTypeIdentifier,
             unit: HKUnit(from: "m/s"),

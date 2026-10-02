@@ -28,8 +28,7 @@ protocol HealthKitManagerProtocol {
     func enableBackgroundDelivery(for type: HKObjectType, andFrequency frequency: HKUpdateFrequency, completion: @escaping (Result<Bool, Error>) -> Void)
     func disableAllBackgroundDeliveries(completion: @escaping (Result<Bool, Error>) -> Void)
     func disableBackgroundDeliveryFor(type: HKObjectType, completion: @escaping (Result<Bool, Error>) -> Void)
-    
-    @available(iOS 15, *)
+
     func executeSampleQuery(_ queryDescriptors: [HKQueryDescriptor], limit: Int, and sortDescriptors: [NSSortDescriptor], _ completion: @escaping (Result<[HKSample]?, Error>) -> Void)
 }
 
@@ -163,7 +162,6 @@ extension HKHealthStore: HealthKitManagerProtocol {
         self.execute(sampleQuery)
     }
     
-    @available(iOS 15, *)
     func executeSampleQuery(_ queryDescriptors: [HKQueryDescriptor], limit: Int, and sortDescriptors: [NSSortDescriptor], _ completion: @escaping (Result<[HKSample]?, Error>) -> Void) {
         let sampleQuery = HKSampleQuery(queryDescriptors: queryDescriptors, limit: limit, sortDescriptors: sortDescriptors) { _, results, error in
             if let error = error {
