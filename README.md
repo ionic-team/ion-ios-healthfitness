@@ -36,13 +36,15 @@
 
 ## Installation
 
+> Replace `${version to use}` below with the version you want to use. Check the [Releases page](https://github.com/ionic-team/ion-ios-healthfitness/releases) for available versions.
+
 ### Swift Package Manager
 
 Add the following to your `Package.swift` file:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/ionic-team/ion-ios-healthfitness.git", from: "1.0.0")
+    .package(url: "https://github.com/ionic-team/ion-ios-healthfitness.git", from: "${version to use}")
 ]
 ```
 
@@ -51,7 +53,7 @@ dependencies: [
 Add the following to your `Podfile`:
 
 ```ruby
-pod 'IONHealthFitnessLib', '~> 1.0.1'
+pod 'IONHealthFitnessLib', '~> ${version to use}'
 ```
 
 Then run:
