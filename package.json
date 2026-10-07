@@ -1,6 +1,6 @@
 {
   "name": "IONHealthFitnessLib",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Library for accessing Apple's HealthKit API for health and fitness data.",
   "author": "OutSystems Mobile Ecosystem",
   "email": "rd.mobileecosystem.team@outsystems.com",

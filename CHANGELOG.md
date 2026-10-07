@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/ionic-team/ion-ios-healthfitness/compare/1.0.1...2.0.0) (2026-10-07)
+
+
+### Features
+
+* update deployment target to iOS 15 ([#2](https://github.com/ionic-team/ion-ios-healthfitness/issues/2)) ([906af3b](https://github.com/ionic-team/ion-ios-healthfitness/commit/906af3b3b9b360bba44f78bd7b7f487fc38c5fe8))
+
+
+### BREAKING CHANGES
+
+* Any consumer on lower deployment targets than iOS 15 will need to bump their deployment target to iOS 15.
+
 ## [1.0.1](https://github.com/ionic-team/ion-ios-healthfitness/compare/1.0.0...1.0.1) (2026-08-17)
 
 
